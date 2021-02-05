@@ -1,9 +1,22 @@
 const express = require('express');
+const fs = require('fs');
+
 const app = express();
+
+// Read File from dev-data
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, {
+    encoding: 'utf8',
+  })
+);
 
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'Hello',
+    status: 'Success',
+    NumberOfTours: tours.length,
+    data: {
+      tours,
+    },
   });
 });
 
