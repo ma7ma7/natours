@@ -10,15 +10,21 @@ const tours = JSON.parse(
     encoding: 'utf8',
   })
 );
+
 // Use middleware
-app.use(express.json());
 app.use(morgan('dev'));
+app.use(express.json());
+app.use((req, res, next) => {
+  req.reqTime = new Date().toISOString();
+  next();
+});
 
 // Handling Routs
 app.get('/api/v1/tours', (req, res) => {
   res.status(200).json({
     status: 'Success',
     NumberOfTours: tours.length,
+    requestedTime: req.reqTime,
     data: {
       tours,
     },
