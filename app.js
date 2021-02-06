@@ -107,14 +107,13 @@ const deleteTour = (req, res) => {
   });
 };
 
-// Handling Routs
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
+// Router
+const tourRouter = express.Router();
+app.use('/api/v1/tours', tourRouter);
 
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+// Handling Routs
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
 // Server
 const port = 8000;
