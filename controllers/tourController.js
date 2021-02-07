@@ -7,6 +7,23 @@ const tours = JSON.parse(
   })
 );
 
+let tour;
+
+// Params middleware
+exports.isIdProvided = (req, res, next, val) => {
+  const id = req.params.id * 1;
+  tour = tours.find((tour) => tour.id === id);
+
+  if (!tour) {
+    return res.status(404).json({
+      status: 'Error',
+      message: 'Coud not find tour',
+    });
+  }
+
+  next();
+};
+
 // Routes Handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -20,16 +37,6 @@ exports.getAllTours = (req, res) => {
 };
 
 exports.getTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
-
-  if (!tour) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'Coud not find tour',
-    });
-  }
-
   res.status(200).json({
     status: 'Success',
     data: {
@@ -58,16 +65,6 @@ exports.createTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
-
-  if (!tour) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'Coud not find tour',
-    });
-  }
-
   res.status(200).json({
     status: 'Success',
     data: {
@@ -77,16 +74,6 @@ exports.updateTour = (req, res) => {
 };
 
 exports.deleteTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find((tour) => tour.id === id);
-
-  if (!tour) {
-    return res.status(404).json({
-      status: 'Error',
-      message: 'Coud not find tour',
-    });
-  }
-
   res.status(204).json({
     status: 'Success',
     data: {

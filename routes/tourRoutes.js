@@ -5,9 +5,13 @@ const {
   createTour,
   updateTour,
   deleteTour,
+  isIdProvided,
 } = require('../controllers/tourController');
 
 const router = express.Router();
+
+// Middleware
+router.param('id', isIdProvided);
 
 // Handling Routs
 router.route('/').get(getAllTours).post(createTour);
