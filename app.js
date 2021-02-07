@@ -5,7 +5,12 @@ const app = express();
 
 // Use middleware
 app.use(express.json());
-app.use(morgan('dev'));
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+console.log(process.env.NODE_ENV);
 
 app.use((req, res, next) => {
   req.reqTime = new Date().toISOString();
@@ -15,8 +20,4 @@ app.use((req, res, next) => {
 // Router
 app.use('/api/v1/tours', tourRouter);
 
-// Server
-const port = 8000;
-app.listen(port, () => {
-  console.log('Listning ...', port);
-});
+module.exports = app;
