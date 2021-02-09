@@ -1,3 +1,4 @@
+const Tour = require('../models/tourModel');
 // const fs = require('fs');
 
 // Read File from dev-data
@@ -25,15 +26,22 @@
 // };
 
 // Routes Handlers
-exports.getAllTours = (req, res) => {
-  res.status(200).json({
-    status: 'Success',
-    // NumberOfTours: tours.length,
-    // requestedTime: req.reqTime,
-    data: {
-      // tours,
-    },
-  });
+exports.getAllTours = async (req, res) => {
+  try {
+    const tours = await Tour.find();
+    res.status(200).json({
+      status: 'Success',
+      NumberOfTours: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    return res.status(404).json({
+      status: 'Error',
+      message: 'Coud not find tours',
+    });
+  }
 };
 
 exports.getTour = (req, res) => {
