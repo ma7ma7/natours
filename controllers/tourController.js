@@ -28,13 +28,25 @@ const Tour = require('../models/tourModel');
 // Routes Handlers
 exports.getAllTours = async (req, res) => {
   try {
-    // Build Query
+    // 1 - Filtring - Build QueryObject
     const queryObject = { ...req.query };
     const excludedFeilds = ['page', 'sort', 'limit', 'fields'];
     excludedFeilds.forEach((el) => delete queryObject[el]);
 
+    // 2 - Advanced filtring - Start the queryString
+    let queryStr = JSON.stringify(queryObject);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    console.log(queryStr);
+
     // Prepare Query
-    const query = Tour.find(queryObject);
+    let query = Tour.find(JSON.parse(queryStr));
+
+    // 3 - sorting
+    if (req.query.sort) {
+      const sortedby = req.query.sort.splite(',').join(' ');
+      query = query.sort(sortedby);
+    }
+
     // Execute Query
     const tours = await query;
 

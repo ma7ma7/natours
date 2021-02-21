@@ -1,5 +1,6 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
+const { argv } = require('process');
 const Tour = require('../../models/tourModel');
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`), {
