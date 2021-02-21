@@ -13,6 +13,7 @@ const router = express.Router();
 // router.param('id', isIdProvided);
 
 // Handling Routs
+router.route('/top-5-tours').get(topRatingTours, getAllTours);
 router.route('/').get(getAllTours).post(createTour);
 router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
